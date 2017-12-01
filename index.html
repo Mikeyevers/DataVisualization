@@ -8,12 +8,14 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="node_modules/leaflet/dist/leaflet.css">
     <link rel="stylesheet" type="text/css" href="lib/leaflet-slider/dist/leaflet-slider.css">
+    <link rel="stylesheet" type="text/css" href="node_modules/leaflet.markercluster/dist/MarkerCluster.css">
+    <link rel="stylesheet" type="text/css" href="node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css">
 
     <!--Javascript-->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="node_modules/leaflet/dist/leaflet.js"></script>
-    <script type="text/javascript" src="node_modules/geojson/geojson.min.js"></script>
     <script type="text/javascript" src="lib/leaflet-slider/dist/leaflet-slider.js"></script>
+    <script type="text/javascript" src="node_modules/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
 
     <script type="text/javascript" src="js/neighbourhoods-colors.js"></script>
@@ -21,6 +23,10 @@
 
 </head>
 <body onload="Engine.init()">
+    <div id="progress">
+        <div id="progress-bar"></div>
+    </div>
+
     <div id="mapid"></div>
 </body>
 </html>

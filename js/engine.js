@@ -1,5 +1,5 @@
 var Engine = (function() {
-    var neighbourhoodsLayer, listingsLayer, map,
+    var neighbourhoodsLayer, listingsLayer, map, progress, progressbar,
         info = L.control();
 
     function init() {
@@ -18,7 +18,7 @@ var Engine = (function() {
         configNeighbourhoodInfo(map);
         configRiskAreaLegenda(map);
         configAvailabilitySlider(map);
-        
+
         // Set the style and the onEachFeature function
         neighbourhoodsLayer = new L.GeoJSON(null, {
             style: style,
@@ -57,12 +57,30 @@ var Engine = (function() {
                 alert('Error retrieving some data! Please reload the page.')
             },
             success: function(data) {
+                // Find the maximum value for the listings slider.
                 var listingsSliderMax = Math.max.apply(Math, data.map(function(o) {return o.host_amsterdam_listings_count}));
                 configListingsSlider(map, listingsSliderMax);
 
-                // GeoJSON.parse(data, {Point: ['latitude', 'longitude']}, function(geojson){
-                //     listingsLayer.addData(geojson);
-                // });
+                // Load the markers in clusters on the screen.
+                progress = document.getElementById('progress');
+                progressBar = document.getElementById('progress-bar');
+
+                var markers = L.markerClusterGroup({
+                    chunkedLoading: true,
+                    chunkProgress: updateProgressBar
+                });
+
+                // Loop through all json object and fill the markerList array.
+                var markerList = [];
+                for (var i = 0; i < data.length; i++) {
+                    var a = data[i];
+                    var title = '123';
+                    var marker = L.marker(L.latLng(a.latitude, a.longitude), { title: title });
+                    marker.bindPopup(title); // todo show some extra info!
+                    markerList.push(marker);
+                }
+                markers.addLayers(markerList);
+                map.addLayer(markers);
             }
         });
     }
@@ -140,6 +158,19 @@ var Engine = (function() {
         };
 
         info.addTo(map);
+    }
+
+    function updateProgressBar(processed, total, elapsed) {
+        if (elapsed > 1000) {
+            // if it takes more than a second to load, display the progress bar:
+            progress.style.display = 'block';
+            progressBar.style.width = Math.round(processed/total*100) + '%';
+        }
+
+        if (processed === total) {
+            // all markers processed - hide the progress bar:
+            progress.style.display = 'none';
+        }
     }
 
     function getColor(g) {
