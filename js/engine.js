@@ -1,5 +1,6 @@
 var Engine = (function() {
     var neighbourhoodsLayer, map, progress, markers, data, minListingsAms, maxAvailableDays,
+        neighbourhoodRisks = {},
         info = L.control();
 
     function init() {
@@ -13,27 +14,6 @@ var Engine = (function() {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
         }).addTo(map);
 
-        // Set the style and the onEachFeature function
-        neighbourhoodsLayer = new L.GeoJSON(null, {
-            style: style,
-            onEachFeature: onEachFeature
-        });
-        neighbourhoodsLayer.addTo(map);
-
-        // Load in the neighbourhoods data
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "data/neighbourhoods.geojson",
-            error: function() {
-                alert('Error retrieving some data! Please reload the page.')
-            },
-            success: function(data) {
-                $(data.features).each(function (key, data) {
-                    neighbourhoodsLayer.addData(data);
-                });
-            }
-        });
 
         // Create progressbar for loading in the markers/listings
         progress = document.getElementById('progress');
@@ -64,19 +44,44 @@ var Engine = (function() {
              }
         });
 
+        // Set the style and the onEachFeature function
+        neighbourhoodsLayer = new L.GeoJSON(null, {
+            style: style,
+            onEachFeature: onEachFeature
+        }).addTo(map);
+
+        // Load in the neighbourhoods data
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "data/neighbourhoods.geojson",
+            error: function() {
+                alert('Error retrieving some data! Please reload the page.')
+            },
+            success: function(data) {
+                $(data.features).each(function (key, data) {
+                    neighbourhoodRisks[data.properties.neighbourhood] = 0;
+                    neighbourhoodsLayer.addData(data);
+                });
+            }
+        });
+
         // Configure the controls
         configNeighbourhoodInfo();
         configRiskAreaLegenda();
     }
 
-    function configDataLayer() {
-        // Loop through all json object and fill the markerList array.
+    function filter() {
+        for (var prop in neighbourhoodRisks) neighbourhoodRisks[prop] = 0;
+
         var markerList = [];
         for (var i = 0; i < data.length; i++) {
             var listing = data[i];
 
             if (!(listing.availability_60 <= maxAvailableDays)) { continue; }
             if (!(listing.host_amsterdam_listings_count >= minListingsAms)) { continue; }
+
+            neighbourhoodRisks[listing.neighbourhood_cleansed] += 1;
 
             var popup = '<h2>Accommodation</h2>' +
                 '<i>' +
@@ -97,35 +102,20 @@ var Engine = (function() {
             marker.bindPopup(popup);
             markerList.push(marker);
         }
+
+        neighbourhoodsLayer.eachLayer(function(layer){
+            neighbourhoodsLayer.resetStyle(layer);
+        });
+
         markers.clearLayers();
         markers.addLayers(markerList);
         map.addLayer(markers);
     }
 
-    function configAvailabilitySlider() {
-        var slider = L.control.slider(function(value) {
-            maxAvailableDays = parseInt(value);
-            configDataLayer();
-        }, {
-            id: 'slider',
-            size: '300px',
-            orientation: 'horizontal',
-            position: 'topleft',
-            min: 0,
-            max: 60,
-            value: 60,
-            title: 'Max. available days out of 60',
-            logo: 'Max. available days out of 60',
-            syncSlider: true
-        });
-
-        slider.addTo(map);
-    }
-
     function configListingsSlider(max) {
         var slider = L.control.slider(function(value) {
             minListingsAms = parseInt(value);
-            configDataLayer();
+            filter();
         }, {
             id: 'slider',
             size: '300px',
@@ -142,6 +132,26 @@ var Engine = (function() {
         slider.addTo(map);
     }
 
+    function configAvailabilitySlider() {
+        var slider = L.control.slider(function(value) {
+            maxAvailableDays = parseInt(value);
+            filter();
+        }, {
+            id: 'slider',
+            size: '300px',
+            orientation: 'horizontal',
+            position: 'topleft',
+            min: 0,
+            max: 60,
+            value: 60,
+            title: 'Max. available days out of 60',
+            logo: 'Max. available days out of 60',
+            syncSlider: true
+        });
+
+        slider.addTo(map);
+    }
+
     function configRiskAreaLegenda() {
         var legend = L.control({position: 'topright'});
 
@@ -149,7 +159,7 @@ var Engine = (function() {
             var div = L.DomUtil.create('div', 'info legend'),
                 grades = [0, 10, 20, 50, 100, 200, 500, 1000];
 
-            div.innerHTML = '<h4>N.o listings</h4>';
+            div.innerHTML = '<h4>Accommodations</h4>';
 
             // loop through our grades and generate a label with a colored square for each interval
             for (var i = 0; i < grades.length; i++) {
@@ -230,14 +240,12 @@ var Engine = (function() {
     }
 
     function style(feature) {
-        var grade = 0;
-
         return {
             color: '#700200',
             weight: 2,
             opacity: 0.7,
             dashArray: 10,
-            fillColor: getColor(grade),
+            fillColor: getColor(neighbourhoodRisks[feature.properties.neighbourhood]),
             fillOpacity: 0.3
         };
     }
