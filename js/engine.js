@@ -1,12 +1,11 @@
 var Engine = (function() {
-    var neighbourhoodsLayer, listingsLayer, map, progress, progressbar,
+    var neighbourhoodsLayer, map, progress, progressbar,
         info = L.control();
 
     function init() {
         // Create a "background" map with some configurations
         map = L.map('mapid', {
             minZoom: 12,
-            maxZoom: 18,
             maxBounds: [[52.278139, 4.728856], [52.431157, 5.068390]]
         }).setView([52.370216, 4.895168], 13);
 
@@ -26,12 +25,6 @@ var Engine = (function() {
         });
         neighbourhoodsLayer.addTo(map);
 
-        // Create a listings layer
-        listingsLayer = new L.GeoJSON(null, {
-
-        });
-        listingsLayer.addTo(map);
-
         // Load in the neighbourhoods data
         $.ajax({
             type: "GET",
@@ -47,7 +40,18 @@ var Engine = (function() {
             }
         });
 
-        //todo filter the data with the sliders and show them on CANVAS!
+        // Create progressbar for loading in the markers/listings
+        progress = document.getElementById('progress');
+        progressBar = document.getElementById('progress-bar');
+
+        var markers = L.markerClusterGroup({
+            maxClusterRadius: 60, // A cluster will cover at most this many pixels from its center
+            chunkedLoading: true,
+            chunkProgress: updateProgressBar,
+            polygonOptions: {weight: 0}
+        });
+
+        //todo filter the data with the sliders
         // Load in the listings data
         $.ajax({
             type: "GET",
@@ -61,22 +65,27 @@ var Engine = (function() {
                 var listingsSliderMax = Math.max.apply(Math, data.map(function(o) {return o.host_amsterdam_listings_count}));
                 configListingsSlider(map, listingsSliderMax);
 
-                // Load the markers in clusters on the screen.
-                progress = document.getElementById('progress');
-                progressBar = document.getElementById('progress-bar');
-
-                var markers = L.markerClusterGroup({
-                    chunkedLoading: true,
-                    chunkProgress: updateProgressBar
-                });
-
                 // Loop through all json object and fill the markerList array.
                 var markerList = [];
                 for (var i = 0; i < data.length; i++) {
-                    var a = data[i];
-                    var title = '123';
-                    var marker = L.marker(L.latLng(a.latitude, a.longitude), { title: title });
-                    marker.bindPopup(title); // todo show some extra info!
+                    var listing = data[i];
+                    var popup = '<h2>Accommodation</h2>' +
+                                '<i>' +
+                                    '<i><b>Id: </b>'+listing.id+'</i><br>' +
+                                    '<i><b>Name: </b>'+listing.name+'</i><br>' +
+                                    '<i><b>Property type: </b>'+listing.property_type+'</i><br>' +
+                                    '<i><b>Room type: </b>'+listing.room_type+'</i><br>' +
+
+                                '<h2>Host</h2>' +
+                                '<p>' +
+                                    '<i><b>Id: </b>'+listing.host_id+'</i><br>' +
+                                    '<i><b>Name: </b>'+listing.host_name+'</i><br>' +
+                                    '<i><b>Total listings: </b>'+listing.host_total_listings_count+'</i><br>' +
+                                    '<i><b>Listings in Amsterdam: </b>'+listing.host_amsterdam_listings_count+'</i><br>' +
+                                '</p>';
+
+                    var marker = L.marker(L.latLng(listing.latitude, listing.longitude));
+                    marker.bindPopup(popup);
                     markerList.push(marker);
                 }
                 markers.addLayers(markerList);
@@ -161,8 +170,8 @@ var Engine = (function() {
     }
 
     function updateProgressBar(processed, total, elapsed) {
-        if (elapsed > 1000) {
-            // if it takes more than a second to load, display the progress bar:
+        if (elapsed > 0) {
+            // if it takes more than x milliseconds to load, display the progress bar:
             progress.style.display = 'block';
             progressBar.style.width = Math.round(processed/total*100) + '%';
         }
