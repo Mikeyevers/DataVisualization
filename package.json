@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Mikeyevers/DataVisualization#readme",
   "dependencies": {
+    "highcharts": "^6.0.4",
     "leaflet": "^1.2.0",
     "leaflet.markercluster": "^1.2.0"
   }

@@ -53,3 +53,15 @@ html, body {
     background-color: #f44336;
     border-radius: 4px;
 }
+
+#risk-chart {
+    position: fixed;
+    z-index: 999;
+    left: 20px;
+    top: 20px;
+    width: 350px;
+    height: 350px;
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 2px;
+}

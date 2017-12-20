@@ -1,7 +1,7 @@
 var Engine = (function() {
-    var neighbourhoodsLayer, map, progress, markers, data, minListingsAms, maxAvailableDays,
+    var neighbourhoodsLayer, map, progress, markers, data, minListingsAms, maxAvailableDays, riskChart, listingsSliderMax,
         neighbourhoodRisks = {},
-        info = L.control();
+        info = L.control({position: 'topright'});
 
     function init() {
         // Create a "background" map with some configurations
@@ -9,6 +9,8 @@ var Engine = (function() {
             minZoom: 12,
             maxBounds: [[52.278139, 4.728856], [52.431157, 5.068390]]
         }).setView([52.370216, 4.895168], 13);
+
+        map.zoomControl.setPosition('bottomleft');
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -38,7 +40,7 @@ var Engine = (function() {
                 data = objects;
 
                 // Find the maximum value for the listings slider.
-                var listingsSliderMax = Math.max.apply(Math, data.map(function(o) {return o.host_amsterdam_listings_count}));
+                listingsSliderMax = Math.max.apply(Math, data.map(function(o) {return o.host_amsterdam_listings_count}));
                 configListingsSlider(listingsSliderMax);
                 configAvailabilitySlider();
              }
@@ -74,7 +76,9 @@ var Engine = (function() {
     function filter() {
         for (var prop in neighbourhoodRisks) neighbourhoodRisks[prop] = 0;
 
-        var markerList = [];
+        var markerList = [],
+            filteredData = [];
+
         for (var i = 0; i < data.length; i++) {
             var listing = data[i];
 
@@ -82,8 +86,9 @@ var Engine = (function() {
             if (!(listing.host_amsterdam_listings_count >= minListingsAms)) { continue; }
 
             neighbourhoodRisks[listing.neighbourhood_cleansed] += 1;
+            filteredData.push(listing);
 
-            var popup = '<h2>Accommodation</h2>' +
+            var popup = '<h2>Listings</h2>' +
                 '<i>' +
                 '<i><b>Id: </b>'+listing.id+'</i><br>' +
                 '<i><b>Name: </b>'+listing.name+'</i><br>' +
@@ -110,6 +115,9 @@ var Engine = (function() {
         markers.clearLayers();
         markers.addLayers(markerList);
         map.addLayer(markers);
+
+        // Create the risk chart
+        createRiskChart(filteredData);
     }
 
     function configListingsSlider(max) {
@@ -120,7 +128,7 @@ var Engine = (function() {
             id: 'slider',
             size: '300px',
             orientation: 'horizontal',
-            position: 'topleft',
+            position: 'bottomright',
             min: 1,
             max: max,
             value: 1,
@@ -140,7 +148,7 @@ var Engine = (function() {
             id: 'slider',
             size: '300px',
             orientation: 'horizontal',
-            position: 'topleft',
+            position: 'bottomright',
             min: 0,
             max: 60,
             value: 60,
@@ -159,7 +167,7 @@ var Engine = (function() {
             var div = L.DomUtil.create('div', 'info legend'),
                 grades = [0, 10, 20, 50, 100, 200, 500, 1000];
 
-            div.innerHTML = '<h4>Accommodations</h4>';
+            div.innerHTML = '<h4>Listings</h4>';
 
             // loop through our grades and generate a label with a colored square for each interval
             for (var i = 0; i < grades.length; i++) {
@@ -255,6 +263,50 @@ var Engine = (function() {
             mouseover: highlightFeature,
             mouseout: resetHighlight,
             click: zoomToFeature
+        });
+    }
+
+    function createRiskChart(rawData) {
+        var convertedData = [];
+
+        for (var index = 0; index < rawData.length; index++) {
+            convertedData.push([rawData[index].host_amsterdam_listings_count, rawData[index].availability_60]);
+        }
+
+        riskChart = Highcharts.chart('risk-chart', {
+            chart: {
+                type: 'scatter',
+                zoomType: 'xy'
+            },
+            title: {
+                text: 'Risk chart'
+            },
+            xAxis: {
+                title: {
+                    text: 'Listings in Ams.'
+                },
+                min: 1,
+                max: listingsSliderMax
+            },
+            yAxis: {
+                title: {
+                    text: 'Available days out of 60'
+                },
+                min: 0,
+                max: 60,
+                reversed: true
+            },
+            series: [{
+                name: 'Listings',
+                data: convertedData
+            }],
+            tooltip: {
+                headerFormat: '<b>{series.name}</b><br>',
+                pointFormat: '{point.x} listings, {point.y} available days'
+            },
+            credits: {
+                enabled: 0
+            }
         });
     }
 
