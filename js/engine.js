@@ -1,5 +1,5 @@
 var Engine = (function() {
-    var neighbourhoodsLayer, map, progress, progressbar,
+    var neighbourhoodsLayer, map, progress, markers, data, minListingsAms, maxAvailableDays,
         info = L.control();
 
     function init() {
@@ -12,11 +12,6 @@ var Engine = (function() {
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
         }).addTo(map);
-
-        // Configure the controls
-        configNeighbourhoodInfo(map);
-        configRiskAreaLegenda(map);
-        configAvailabilitySlider(map);
 
         // Set the style and the onEachFeature function
         neighbourhoodsLayer = new L.GeoJSON(null, {
@@ -44,14 +39,13 @@ var Engine = (function() {
         progress = document.getElementById('progress');
         progressBar = document.getElementById('progress-bar');
 
-        var markers = L.markerClusterGroup({
-            maxClusterRadius: 60, // A cluster will cover at most this many pixels from its center
+        markers = L.markerClusterGroup({
+            maxClusterRadius: 60,
             chunkedLoading: true,
             chunkProgress: updateProgressBar,
             polygonOptions: {weight: 0}
         });
 
-        //todo filter the data with the sliders
         // Load in the listings data
         $.ajax({
             type: "GET",
@@ -60,43 +54,57 @@ var Engine = (function() {
             error: function() {
                 alert('Error retrieving some data! Please reload the page.')
             },
-            success: function(data) {
+            success: function(objects) {
+                data = objects;
+
                 // Find the maximum value for the listings slider.
                 var listingsSliderMax = Math.max.apply(Math, data.map(function(o) {return o.host_amsterdam_listings_count}));
-                configListingsSlider(map, listingsSliderMax);
-
-                // Loop through all json object and fill the markerList array.
-                var markerList = [];
-                for (var i = 0; i < data.length; i++) {
-                    var listing = data[i];
-                    var popup = '<h2>Accommodation</h2>' +
-                                '<i>' +
-                                    '<i><b>Id: </b>'+listing.id+'</i><br>' +
-                                    '<i><b>Name: </b>'+listing.name+'</i><br>' +
-                                    '<i><b>Property type: </b>'+listing.property_type+'</i><br>' +
-                                    '<i><b>Room type: </b>'+listing.room_type+'</i><br>' +
-
-                                '<h2>Host</h2>' +
-                                '<p>' +
-                                    '<i><b>Id: </b>'+listing.host_id+'</i><br>' +
-                                    '<i><b>Name: </b>'+listing.host_name+'</i><br>' +
-                                    '<i><b>Total listings: </b>'+listing.host_total_listings_count+'</i><br>' +
-                                    '<i><b>Listings in Amsterdam: </b>'+listing.host_amsterdam_listings_count+'</i><br>' +
-                                '</p>';
-
-                    var marker = L.marker(L.latLng(listing.latitude, listing.longitude));
-                    marker.bindPopup(popup);
-                    markerList.push(marker);
-                }
-                markers.addLayers(markerList);
-                map.addLayer(markers);
-            }
+                configListingsSlider(listingsSliderMax);
+                configAvailabilitySlider();
+             }
         });
+
+        // Configure the controls
+        configNeighbourhoodInfo();
+        configRiskAreaLegenda();
     }
 
-    function configAvailabilitySlider(map) {
+    function configDataLayer() {
+        // Loop through all json object and fill the markerList array.
+        var markerList = [];
+        for (var i = 0; i < data.length; i++) {
+            var listing = data[i];
+
+            if (!(listing.availability_60 <= maxAvailableDays)) { continue; }
+            if (!(listing.host_amsterdam_listings_count) >= minListingsAms) { continue; }
+
+            var popup = '<h2>Accommodation</h2>' +
+                '<i>' +
+                '<i><b>Id: </b>'+listing.id+'</i><br>' +
+                '<i><b>Name: </b>'+listing.name+'</i><br>' +
+                '<i><b>Property type: </b>'+listing.property_type+'</i><br>' +
+                '<i><b>Room type: </b>'+listing.room_type+'</i><br>' +
+
+                '<h2>Host</h2>' +
+                '<p>' +
+                '<i><b>Id: </b>'+listing.host_id+'</i><br>' +
+                '<i><b>Name: </b>'+listing.host_name+'</i><br>' +
+                '<i><b>Total listings: </b>'+listing.host_total_listings_count+'</i><br>' +
+                '<i><b>Listings in Amsterdam: </b>'+listing.host_amsterdam_listings_count+'</i><br>' +
+                '</p>';
+
+            var marker = L.marker(L.latLng(listing.latitude, listing.longitude));
+            marker.bindPopup(popup);
+            markerList.push(marker);
+        }
+        markers.addLayers(markerList);
+        map.addLayer(markers);
+    }
+
+    function configAvailabilitySlider() {
         var slider = L.control.slider(function(value) {
-            //todo handler
+            minListingsAms = value;
+            configDataLayer();
         }, {
             id: 'slider',
             size: '300px',
@@ -113,9 +121,10 @@ var Engine = (function() {
         slider.addTo(map);
     }
 
-    function configListingsSlider(map, max) {
+    function configListingsSlider(max) {
         var slider = L.control.slider(function(value) {
-            //todo handler
+            maxAvailableDays = value;
+            configDataLayer();
         }, {
             id: 'slider',
             size: '300px',
@@ -132,7 +141,7 @@ var Engine = (function() {
         slider.addTo(map);
     }
 
-    function configRiskAreaLegenda(map) {
+    function configRiskAreaLegenda() {
         var legend = L.control({position: 'topright'});
 
         legend.onAdd = function (map) {
@@ -154,7 +163,7 @@ var Engine = (function() {
         legend.addTo(map);
     }
 
-    function configNeighbourhoodInfo(map) {
+    function configNeighbourhoodInfo() {
         info.onAdd = function (map) {
             this._div = L.DomUtil.create('div', 'info');
             this.update();
