@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/js/engine.js" line="133" />
+    <bookmark url="file://$PROJECT_DIR$/js/engine.js" line="134" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c77a5f5-d49b-4b22-9155-b603fc8b006c" name="Default" comment="">
@@ -18,28 +18,31 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5185407">
+    <splitter split-orientation="horizontal" split-proportion="0.54292774">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="engine.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/js/engine.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="638">
-                  <caret line="78" column="74" lean-forward="false" selection-start-line="78" selection-start-column="74" selection-end-line="78" selection-end-column="74" />
+                <state relative-caret-position="102">
+                  <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
                   <folding>
-                    <element signature="e#5145#5871#0" expanded="false" />
-                    <element signature="e#5912#6318#0" expanded="false" />
-                    <element signature="e#6378#6785#0" expanded="false" />
-                    <element signature="e#6812#7174#0" expanded="false" />
-                    <element signature="e#7209#7603#0" expanded="false" />
-                    <element signature="e#7636#7716#0" expanded="false" />
-                    <element signature="e#7748#7800#0" expanded="false" />
-                    <element signature="e#7830#8064#0" expanded="false" />
-                    <element signature="e#8109#8259#0" expanded="false" />
-                    <marker date="1513776360771" expanded="true" signature="518:524" ph="©" />
-                    <marker date="1513776360771" expanded="true" signature="5402:5521" ph="..." />
-                    <marker date="1513776360771" expanded="true" signature="5642:5653" ph="..." />
-                    <marker date="1513776360771" expanded="true" signature="5745:5752" ph="–" />
+                    <element signature="e#169#2632#0" expanded="false" />
+                    <element signature="e#2665#4042#0" expanded="false" />
+                    <element signature="e#4084#4600#0" expanded="false" />
+                    <element signature="e#4641#5157#0" expanded="false" />
+                    <element signature="e#5963#6369#0" expanded="false" />
+                    <element signature="e#6429#6836#0" expanded="false" />
+                    <element signature="e#6863#7225#0" expanded="false" />
+                    <element signature="e#7260#7654#0" expanded="false" />
+                    <element signature="e#7687#7767#0" expanded="false" />
+                    <element signature="e#7799#7851#0" expanded="false" />
+                    <element signature="e#7881#8115#0" expanded="false" />
+                    <element signature="e#8160#8310#0" expanded="false" />
+                    <marker date="1513780853429" expanded="true" signature="518:524" ph="©" />
+                    <marker date="1513780853429" expanded="true" signature="5453:5572" ph="..." />
+                    <marker date="1513780853429" expanded="true" signature="5693:5704" ph="..." />
+                    <marker date="1513780853429" expanded="true" signature="5796:5803" ph="–" />
                   </folding>
                 </state>
               </provider>
@@ -49,7 +52,7 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+          <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/index.html">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="510">
@@ -64,16 +67,6 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="514">
                   <caret line="38" column="13" lean-forward="false" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="listings_filtered.json" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/data/listings_filtered.json">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="901">
-                  <caret line="0" column="4914" lean-forward="false" selection-start-line="0" selection-start-column="4901" selection-end-line="0" selection-end-column="4914" />
                   <folding />
                 </state>
               </provider>
@@ -208,13 +201,20 @@
             <path>
               <item name="DataVisualization" type="b2602c69:ProjectViewProjectNode" />
               <item name="DataVisualization" type="462c0819:PsiDirectoryNode" />
-              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="DataVisualization" type="b2602c69:ProjectViewProjectNode" />
               <item name="DataVisualization" type="462c0819:PsiDirectoryNode" />
-              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
-              <item name="leaflet.markercluster" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="leaflet-slider" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DataVisualization" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DataVisualization" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="leaflet-slider" type="462c0819:PsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -284,12 +284,12 @@
       <workItem from="1511801254960" duration="23058000" />
       <workItem from="1512049084930" duration="6328000" />
       <workItem from="1512060004574" duration="26958000" />
-      <workItem from="1513765547399" duration="9889000" />
+      <workItem from="1513765547399" duration="12457000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66617000" />
+    <option name="totallyTimeSpent" value="69185000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -339,41 +339,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="19" />
+      <option name="time" value="25" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="1" lean-forward="true" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/engine.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding>
-            <element signature="e#5145#5871#0" expanded="false" />
-            <element signature="e#5912#6318#0" expanded="false" />
-            <element signature="e#6378#6785#0" expanded="false" />
-            <element signature="e#6812#7174#0" expanded="false" />
-            <element signature="e#7209#7603#0" expanded="false" />
-            <element signature="e#7636#7716#0" expanded="false" />
-            <element signature="e#7748#7800#0" expanded="false" />
-            <element signature="e#7830#8064#0" expanded="false" />
-            <element signature="e#8109#8259#0" expanded="false" />
-            <marker date="1513776360771" expanded="true" signature="518:524" ph="©" />
-            <marker date="1513776360771" expanded="true" signature="5402:5521" ph="..." />
-            <marker date="1513776360771" expanded="true" signature="5642:5653" ph="..." />
-            <marker date="1513776360771" expanded="true" signature="5745:5752" ph="–" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -548,14 +518,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="514">
-          <caret line="38" column="13" lean-forward="false" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/leaflet.markercluster/example/screen.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
@@ -604,14 +566,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="7" lean-forward="false" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/leaflet/dist/leaflet-src.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="301">
@@ -619,14 +573,6 @@
           <folding>
             <element signature="n#!!doc" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/leaflet-slider/dist/leaflet-slider.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="74" column="8" lean-forward="false" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -646,24 +592,69 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/leaflet/src/layer/Layer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="178" column="4" lean-forward="false" selection-start-line="178" selection-start-column="4" selection-end-line="178" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="514">
+          <caret line="38" column="13" lean-forward="false" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="7" lean-forward="false" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/leaflet-slider/example/leaflet-slider.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding>
+            <marker date="1452424481000" expanded="true" signature="682:688" ph="©" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/leaflet-slider/dist/leaflet-slider.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-520">
+          <caret line="74" column="8" lean-forward="false" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/engine.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="638">
-          <caret line="78" column="74" lean-forward="false" selection-start-line="78" selection-start-column="74" selection-end-line="78" selection-end-column="74" />
+        <state relative-caret-position="102">
+          <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
           <folding>
-            <element signature="e#5145#5871#0" expanded="false" />
-            <element signature="e#5912#6318#0" expanded="false" />
-            <element signature="e#6378#6785#0" expanded="false" />
-            <element signature="e#6812#7174#0" expanded="false" />
-            <element signature="e#7209#7603#0" expanded="false" />
-            <element signature="e#7636#7716#0" expanded="false" />
-            <element signature="e#7748#7800#0" expanded="false" />
-            <element signature="e#7830#8064#0" expanded="false" />
-            <element signature="e#8109#8259#0" expanded="false" />
-            <marker date="1513776360771" expanded="true" signature="518:524" ph="©" />
-            <marker date="1513776360771" expanded="true" signature="5402:5521" ph="..." />
-            <marker date="1513776360771" expanded="true" signature="5642:5653" ph="..." />
-            <marker date="1513776360771" expanded="true" signature="5745:5752" ph="–" />
+            <element signature="e#169#2632#0" expanded="false" />
+            <element signature="e#2665#4042#0" expanded="false" />
+            <element signature="e#4084#4600#0" expanded="false" />
+            <element signature="e#4641#5157#0" expanded="false" />
+            <element signature="e#5963#6369#0" expanded="false" />
+            <element signature="e#6429#6836#0" expanded="false" />
+            <element signature="e#6863#7225#0" expanded="false" />
+            <element signature="e#7260#7654#0" expanded="false" />
+            <element signature="e#7687#7767#0" expanded="false" />
+            <element signature="e#7799#7851#0" expanded="false" />
+            <element signature="e#7881#8115#0" expanded="false" />
+            <element signature="e#8160#8310#0" expanded="false" />
+            <marker date="1513780853429" expanded="true" signature="518:524" ph="©" />
+            <marker date="1513780853429" expanded="true" signature="5453:5572" ph="..." />
+            <marker date="1513780853429" expanded="true" signature="5693:5704" ph="..." />
+            <marker date="1513780853429" expanded="true" signature="5796:5803" ph="–" />
           </folding>
         </state>
       </provider>

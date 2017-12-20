@@ -76,7 +76,7 @@ var Engine = (function() {
             var listing = data[i];
 
             if (!(listing.availability_60 <= maxAvailableDays)) { continue; }
-            if (!(listing.host_amsterdam_listings_count) >= minListingsAms) { continue; }
+            if (!(listing.host_amsterdam_listings_count >= minListingsAms)) { continue; }
 
             var popup = '<h2>Accommodation</h2>' +
                 '<i>' +
@@ -97,13 +97,14 @@ var Engine = (function() {
             marker.bindPopup(popup);
             markerList.push(marker);
         }
+        markers.clearLayers();
         markers.addLayers(markerList);
         map.addLayer(markers);
     }
 
     function configAvailabilitySlider() {
         var slider = L.control.slider(function(value) {
-            minListingsAms = value;
+            maxAvailableDays = parseInt(value);
             configDataLayer();
         }, {
             id: 'slider',
@@ -123,7 +124,7 @@ var Engine = (function() {
 
     function configListingsSlider(max) {
         var slider = L.control.slider(function(value) {
-            maxAvailableDays = value;
+            minListingsAms = parseInt(value);
             configDataLayer();
         }, {
             id: 'slider',
