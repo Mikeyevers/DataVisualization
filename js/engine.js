@@ -1,11 +1,12 @@
 var Engine = (function() {
-    var neighbourhoodsLayer, map, progress, markers, data, minListingsAms, maxAvailableDays, riskChart, listingsSliderMax,
+    var neighbourhoodsLayer, map, progress, markers, data, minListingsAms, maxAvailableDays, riskChart, listingsSliderMax, legend,
         neighbourhoodRisks = {},
         info = L.control({position: 'topright'});
 
     function init() {
         // Create a "background" map with some configurations
         map = L.map('mapid', {
+            attributionControl: false,
             minZoom: 12,
             maxBounds: [[52.278139, 4.728856], [52.431157, 5.068390]]
         }).setView([52.370216, 4.895168], 13);
@@ -161,7 +162,7 @@ var Engine = (function() {
     }
 
     function configRiskAreaLegenda() {
-        var legend = L.control({position: 'topright'});
+        legend = L.control({position: 'topright'});
 
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'info legend'),
@@ -190,8 +191,10 @@ var Engine = (function() {
         };
 
         info.update = function (props) {
-            this._div.innerHTML = '<h4>Neighbourhood</h4>'
-                +  (props ? '<b>' + props.neighbourhood + '</b>' : 'Hover over a neighbourhood');
+            var listings = props ? neighbourhoodRisks[props.neighbourhood] : null;
+
+            this._div.innerHTML = '<h4>Info</h4>'
+                +  (props ? '<p><b>Neighbourhood: </b>' + props.neighbourhood + '<p><b>Listings: </b>' + listings + '</p>' : 'Hover over a neighbourhood');
         };
 
         info.addTo(map);
@@ -210,14 +213,14 @@ var Engine = (function() {
         }
     }
 
-    function getColor(g) {
-        return g > 1000 ? '#800026' :
-            g > 500  ? '#BD0026' :
-                g > 200  ? '#E31A1C' :
-                    g > 100  ? '#FC4E2A' :
-                        g > 50   ? '#FD8D3C' :
-                            g > 20   ? '#FEB24C' :
-                                g > 10   ? '#FED976' :
+    function getColor(listings) {
+        return listings > 1000 ? '#800026' :
+            listings > 500  ? '#BD0026' :
+                listings > 200  ? '#E31A1C' :
+                    listings > 100  ? '#FC4E2A' :
+                        listings > 50   ? '#FD8D3C' :
+                            listings > 20   ? '#FEB24C' :
+                                listings > 10   ? '#FED976' :
                                     '#FFEDA0';
     }
 
@@ -248,12 +251,13 @@ var Engine = (function() {
     }
 
     function style(feature) {
+        var neighbourhood = neighbourhoodRisks[feature.properties.neighbourhood];
         return {
             color: '#700200',
             weight: 2,
             opacity: 0.7,
             dashArray: 10,
-            fillColor: getColor(neighbourhoodRisks[feature.properties.neighbourhood]),
+            fillColor: neighbourhood ? getColor(neighbourhood) : 'transparent',
             fillOpacity: 0.3
         };
     }
@@ -276,7 +280,9 @@ var Engine = (function() {
         riskChart = Highcharts.chart('risk-chart', {
             chart: {
                 type: 'scatter',
-                zoomType: 'xy'
+                zoomType: 'xy',
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                borderRadius: 8
             },
             title: {
                 text: 'Risk chart'
