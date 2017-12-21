@@ -316,8 +316,11 @@ var Engine = (function() {
             },
             series: [{
                 name: 'Listings',
-                color: 'rgba(0, 0, 0, .5)',
-                data: convertedData
+                data: convertedData,
+                marker: {
+                    fillColor: 'rgba(0, 0, 0, .5)',
+                    lineWidth: 0.5
+                }
             }],
             tooltip: {
                 headerFormat: '<b>{series.name}</b><br>',
