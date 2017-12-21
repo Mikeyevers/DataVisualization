@@ -282,7 +282,19 @@ var Engine = (function() {
                 type: 'scatter',
                 zoomType: 'xy',
                 backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                borderRadius: 8
+                borderRadius: 8,
+                plotBackgroundColor: Highcharts.svg ? {
+                    radialGradient: {
+                        cx: 1.0,
+                        cy: 0.0,
+                        r: 1.5
+                    },
+                    stops: [
+                        [0.0, 'rgba(255, 0, 0, 1.0)'],
+                        [0.5, 'rgba(255, 193, 86, 1.0)'],
+                        [1.0, 'rgba(44, 160, 44, 1.0)']
+                    ]
+                } : null
             },
             title: {
                 text: 'Risk chart'
@@ -304,6 +316,7 @@ var Engine = (function() {
             },
             series: [{
                 name: 'Listings',
+                color: 'rgba(0, 0, 0, .5)',
                 data: convertedData
             }],
             tooltip: {
