@@ -20,25 +20,23 @@
       <file leaf-file-name="engine.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/engine.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="208" column="38" lean-forward="false" selection-start-line="208" selection-start-column="38" selection-end-line="208" selection-end-column="38" />
+            <state relative-caret-position="-2091">
+              <caret line="3" column="65" lean-forward="false" selection-start-line="3" selection-start-column="65" selection-end-line="3" selection-end-column="65" />
               <folding>
-                <element signature="e#4765#5963#0" expanded="false" />
-                <element signature="e#5987#6771#0" expanded="false" />
-                <element signature="e#7940#8658#0" expanded="false" />
-                <element signature="e#8699#9238#0" expanded="false" />
-                <element signature="e#9298#9706#0" expanded="false" />
-                <element signature="e#9740#10151#0" expanded="false" />
-                <element signature="e#10186#10580#0" expanded="false" />
-                <element signature="e#10613#10693#0" expanded="false" />
-                <element signature="e#10725#10777#0" expanded="false" />
-                <element signature="e#10807#11139#0" expanded="false" />
-                <element signature="e#11184#11334#0" expanded="false" />
-                <element signature="e#11374#11658#0" expanded="false" />
-                <element signature="e#11671#11712#0" expanded="false" />
-                <marker date="1515432935509" expanded="true" signature="729:735" ph="©" />
-                <marker date="1515432935509" expanded="true" signature="8429:8440" ph="..." />
-                <marker date="1515432935509" expanded="true" signature="8532:8539" ph="–" />
+                <element signature="e#8227#8945#0" expanded="false" />
+                <element signature="e#8986#9525#0" expanded="false" />
+                <element signature="e#9585#9993#0" expanded="false" />
+                <element signature="e#10027#10438#0" expanded="false" />
+                <element signature="e#10473#10867#0" expanded="false" />
+                <element signature="e#10900#10980#0" expanded="false" />
+                <element signature="e#11012#11064#0" expanded="false" />
+                <element signature="e#11094#11426#0" expanded="false" />
+                <element signature="e#11471#11621#0" expanded="false" />
+                <element signature="e#11661#11945#0" expanded="false" />
+                <element signature="e#11958#11999#0" expanded="false" />
+                <marker date="1515433986219" expanded="true" signature="795:801" ph="©" />
+                <marker date="1515433986219" expanded="true" signature="8716:8727" ph="..." />
+                <marker date="1515433986219" expanded="true" signature="8819:8826" ph="–" />
               </folding>
             </state>
           </provider>
@@ -49,16 +47,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="612">
               <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1632">
-              <caret line="96" column="1" lean-forward="false" selection-start-line="96" selection-start-column="1" selection-end-line="96" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -202,6 +190,19 @@
               <item name="DataVisualization" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="DataVisualization" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DataVisualization" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="leaflet-slider" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DataVisualization" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DataVisualization" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="leaflet-slider" type="462c0819:PsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -237,21 +238,24 @@
   </component>
   <component name="RunManager" selected="JavaScript Debug.index.html">
     <configuration name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/DataVisualization/index.html" />
+    <configuration name="leaflet-slider.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/DataVisualization/lib/leaflet-slider/example/leaflet-slider.html" />
     <configuration name="marker-clustering-convexhull.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/DataVisualization/leaflet.markercluster/example/marker-clustering-convexhull.html" />
     <configuration name="marker-clustering-pane.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/DataVisualization/leaflet.markercluster/example/marker-clustering-pane.html" />
     <configuration name="marker-clustering.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/DataVisualization/leaflet.markercluster/example/marker-clustering.html" />
-    <list size="4">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
       <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.marker-clustering-convexhull.html" />
       <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.marker-clustering.html" />
       <item index="3" class="java.lang.String" itemvalue="JavaScript Debug.marker-clustering-pane.html" />
+      <item index="4" class="java.lang.String" itemvalue="JavaScript Debug.leaflet-slider.html" />
     </list>
     <recent_temporary>
-      <list size="4">
+      <list size="5">
         <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
-        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.marker-clustering-pane.html" />
-        <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.marker-clustering.html" />
-        <item index="3" class="java.lang.String" itemvalue="JavaScript Debug.marker-clustering-convexhull.html" />
+        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.leaflet-slider.html" />
+        <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.marker-clustering-pane.html" />
+        <item index="3" class="java.lang.String" itemvalue="JavaScript Debug.marker-clustering.html" />
+        <item index="4" class="java.lang.String" itemvalue="JavaScript Debug.marker-clustering-convexhull.html" />
       </list>
     </recent_temporary>
   </component>
@@ -271,12 +275,12 @@
       <workItem from="1512049084930" duration="6328000" />
       <workItem from="1512060004574" duration="26958000" />
       <workItem from="1513765547399" duration="44325000" />
-      <workItem from="1515424526905" duration="8386000" />
+      <workItem from="1515424526905" duration="9412000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="109439000" />
+    <option name="totallyTimeSpent" value="110465000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -326,7 +330,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="73" />
+      <option name="time" value="75" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -557,14 +561,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1632">
-          <caret line="96" column="1" lean-forward="false" selection-start-line="96" selection-start-column="1" selection-end-line="96" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/highcharts/modules/exporting.src.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="460">
@@ -589,18 +585,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/leaflet-slider/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="21" lean-forward="false" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="92" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/leaflet-slider/dist/leaflet-slider.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="37" lean-forward="true" selection-start-line="0" selection-start-column="37" selection-end-line="0" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/leaflet-slider/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="803">
+          <caret line="96" column="1" lean-forward="false" selection-start-line="96" selection-start-column="1" selection-end-line="96" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -625,25 +629,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/engine.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="208" column="38" lean-forward="false" selection-start-line="208" selection-start-column="38" selection-end-line="208" selection-end-column="38" />
+        <state relative-caret-position="-2091">
+          <caret line="3" column="65" lean-forward="false" selection-start-line="3" selection-start-column="65" selection-end-line="3" selection-end-column="65" />
           <folding>
-            <element signature="e#4765#5963#0" expanded="false" />
-            <element signature="e#5987#6771#0" expanded="false" />
-            <element signature="e#7940#8658#0" expanded="false" />
-            <element signature="e#8699#9238#0" expanded="false" />
-            <element signature="e#9298#9706#0" expanded="false" />
-            <element signature="e#9740#10151#0" expanded="false" />
-            <element signature="e#10186#10580#0" expanded="false" />
-            <element signature="e#10613#10693#0" expanded="false" />
-            <element signature="e#10725#10777#0" expanded="false" />
-            <element signature="e#10807#11139#0" expanded="false" />
-            <element signature="e#11184#11334#0" expanded="false" />
-            <element signature="e#11374#11658#0" expanded="false" />
-            <element signature="e#11671#11712#0" expanded="false" />
-            <marker date="1515432935509" expanded="true" signature="729:735" ph="©" />
-            <marker date="1515432935509" expanded="true" signature="8429:8440" ph="..." />
-            <marker date="1515432935509" expanded="true" signature="8532:8539" ph="–" />
+            <element signature="e#8227#8945#0" expanded="false" />
+            <element signature="e#8986#9525#0" expanded="false" />
+            <element signature="e#9585#9993#0" expanded="false" />
+            <element signature="e#10027#10438#0" expanded="false" />
+            <element signature="e#10473#10867#0" expanded="false" />
+            <element signature="e#10900#10980#0" expanded="false" />
+            <element signature="e#11012#11064#0" expanded="false" />
+            <element signature="e#11094#11426#0" expanded="false" />
+            <element signature="e#11471#11621#0" expanded="false" />
+            <element signature="e#11661#11945#0" expanded="false" />
+            <element signature="e#11958#11999#0" expanded="false" />
+            <marker date="1515433986219" expanded="true" signature="795:801" ph="©" />
+            <marker date="1515433986219" expanded="true" signature="8716:8727" ph="..." />
+            <marker date="1515433986219" expanded="true" signature="8819:8826" ph="–" />
           </folding>
         </state>
       </provider>

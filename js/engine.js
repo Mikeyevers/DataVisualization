@@ -1,6 +1,7 @@
 var Engine = (function() {
     var neighbourhoodsLayer, map, progress, markersLayer, data, minListingsAms, maxAvailableDays, riskChart, listingsSliderMax, legend,
         markers = [],
+        callbackCount = 0, // I know this is a little bit hacky..
         neighbourhoodRisks = {},
         info = L.control({position: 'topright'});
 
@@ -188,7 +189,11 @@ var Engine = (function() {
     function configListingsSlider(max) {
         var slider = L.control.slider(function(value) {
             minListingsAms = parseInt(value);
-            setTimeout(filter, 0);
+            if (callbackCount >= 2) {
+                setTimeout(filter, 0);
+            } else {
+                callbackCount++;
+            }
         }, {
             id: 'slider',
             size: '300px',
@@ -208,7 +213,11 @@ var Engine = (function() {
     function configAvailabilitySlider() {
         var slider = L.control.slider(function(value) {
             maxAvailableDays = parseInt(value);
-           setTimeout(filter, 0);
+            if (callbackCount >= 2) {
+                setTimeout(filter, 0);
+            } else {
+                callbackCount++;
+            }
         }, {
             id: 'slider',
             size: '300px',
