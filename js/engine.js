@@ -25,7 +25,6 @@ var Engine = (function() {
         progressBar = document.getElementById('progress-bar');
 
         markersLayer = L.markerClusterGroup({
-            maxClusterRadius: 60,
             chunkedLoading: true,
             chunkProgress: updateProgressBar,
             polygonOptions: {weight: 0}
