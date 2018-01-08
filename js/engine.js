@@ -1,5 +1,6 @@
 var Engine = (function() {
-    var neighbourhoodsLayer, map, progress, markers, data, minListingsAms, maxAvailableDays, riskChart, listingsSliderMax, legend,
+    var neighbourhoodsLayer, map, progress, markersLayer, data, minListingsAms, maxAvailableDays, riskChart, listingsSliderMax, legend,
+        markers = [],
         neighbourhoodRisks = {},
         info = L.control({position: 'topright'});
 
@@ -22,11 +23,64 @@ var Engine = (function() {
         progress = document.getElementById('progress');
         progressBar = document.getElementById('progress-bar');
 
-        markers = L.markerClusterGroup({
+        markersLayer = L.markerClusterGroup({
             maxClusterRadius: 60,
             chunkedLoading: true,
             chunkProgress: updateProgressBar,
             polygonOptions: {weight: 0}
+        });
+
+        riskChart = Highcharts.chart('risk-chart', {
+            chart: {
+                type: 'scatter',
+                zoomType: 'xy',
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                borderRadius: 8,
+                plotBackgroundColor: Highcharts.svg ? {
+                    radialGradient: {
+                        cx: 1.0,
+                        cy: 0.0,
+                        r: 1.5
+                    },
+                    stops: [
+                        [0.0, 'rgba(255, 0, 0, 1.0)'],
+                        [0.5, 'rgba(255, 193, 86, 1.0)'],
+                        [1.0, 'rgba(44, 160, 44, 1.0)']
+                    ]
+                } : null
+            },
+            title: {
+                text: 'Risk chart'
+            },
+            xAxis: {
+                title: {
+                    text: 'Listings in Ams.'
+                },
+                min: 0,
+                max: listingsSliderMax
+            },
+            yAxis: {
+                title: {
+                    text: 'Available days out of 60'
+                },
+                min: 0,
+                max: 60,
+                reversed: true
+            },
+            series: [{
+                name: 'Listings',
+                marker: {
+                    fillColor: 'rgba(0, 0, 0, .5)',
+                    lineWidth: 0.5
+                }
+            }],
+            tooltip: {
+                headerFormat: '<b>{series.name}</b><br>',
+                pointFormat: '{point.x} listings, {point.y} available days'
+            },
+            credits: {
+                enabled: 0
+            }
         });
 
         // Load in the listings data
@@ -42,54 +96,45 @@ var Engine = (function() {
 
                 // Find the maximum value for the listings slider.
                 listingsSliderMax = Math.max.apply(Math, data.map(function(o) {return o.host_amsterdam_listings_count}));
-                configListingsSlider(listingsSliderMax);
-                configAvailabilitySlider();
+
+                // Load in the neighbourhoods data
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "data/neighbourhoods.geojson",
+                    error: function() {
+                        alert('Error retrieving some data! Please reload the page.')
+                    },
+                    success: function(data) {
+                        $(data.features).each(function (key, data) {
+                            neighbourhoodRisks[data.properties.neighbourhood] = 0;
+                        });
+
+                        initMarkers();
+                        filterRiskChart(markers);
+                        configListingsSlider(listingsSliderMax);
+                        configAvailabilitySlider();
+
+                        neighbourhoodsLayer = new L.GeoJSON(null, {
+                            style: style,
+                            onEachFeature: onEachFeature
+                        }).addTo(map);
+
+                        neighbourhoodsLayer.addData(data);
+                    }
+                });
+
+                configNeighbourhoodInfo();
+                configRiskAreaLegenda();
              }
         });
-
-        // Set the style and the onEachFeature function
-        neighbourhoodsLayer = new L.GeoJSON(null, {
-            style: style,
-            onEachFeature: onEachFeature
-        }).addTo(map);
-
-        // Load in the neighbourhoods data
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "data/neighbourhoods.geojson",
-            error: function() {
-                alert('Error retrieving some data! Please reload the page.')
-            },
-            success: function(data) {
-                $(data.features).each(function (key, data) {
-                    neighbourhoodRisks[data.properties.neighbourhood] = 0;
-                    neighbourhoodsLayer.addData(data);
-                });
-            }
-        });
-
-        // Configure the controls
-        configNeighbourhoodInfo();
-        configRiskAreaLegenda();
     }
 
-    function filter() {
-        for (var prop in neighbourhoodRisks) neighbourhoodRisks[prop] = 0;
-
-        var markerList = [],
-            filteredData = [];
-
+    function initMarkers() {
         for (var i = 0; i < data.length; i++) {
-            var listing = data[i];
-
-            if (!(listing.availability_60 <= maxAvailableDays)) { continue; }
-            if (!(listing.host_amsterdam_listings_count >= minListingsAms)) { continue; }
-
-            neighbourhoodRisks[listing.neighbourhood_cleansed] += 1;
-            filteredData.push(listing);
-
-            var popup = '<h2>Listings</h2>' +
+            var listing = data[i],
+                marker = L.marker(L.latLng(listing.latitude, listing.longitude), {data: listing}),
+                popup = '<h2>Listings</h2>' +
                 '<i>' +
                 '<i><b>Id: </b>'+listing.id+'</i><br>' +
                 '<i><b>Name: </b>'+listing.name+'</i><br>' +
@@ -104,27 +149,46 @@ var Engine = (function() {
                 '<i><b>Listings in Amsterdam: </b>'+listing.host_amsterdam_listings_count+'</i><br>' +
                 '</p>';
 
-            var marker = L.marker(L.latLng(listing.latitude, listing.longitude));
+            neighbourhoodRisks[listing.neighbourhood_cleansed] += 1;
             marker.bindPopup(popup);
-            markerList.push(marker);
+            markers.push(marker);
+        }
+
+        markersLayer.clearLayers();
+        markersLayer.addLayers(markers);
+        map.addLayer(markersLayer);
+    }
+
+    function filter() {
+        var filteredMarkers = [];
+
+        for (var key in neighbourhoodRisks) {
+            neighbourhoodRisks[key] = 0;
+        }
+
+        for (var i = 0; i < markers.length; i++) {
+            var listing = markers[i].options.data;
+
+            if (!(listing.availability_60 <= maxAvailableDays)) { continue; }
+            if (!(listing.host_amsterdam_listings_count >= minListingsAms)) { continue; }
+
+            neighbourhoodRisks[listing.neighbourhood_cleansed] += 1;
+            filteredMarkers.push(markers[i]);
         }
 
         neighbourhoodsLayer.eachLayer(function(layer){
             neighbourhoodsLayer.resetStyle(layer);
         });
 
-        markers.clearLayers();
-        markers.addLayers(markerList);
-        map.addLayer(markers);
-
-        // Create the risk chart
-        createRiskChart(filteredData);
+        markersLayer.clearLayers();
+        markersLayer.addLayers(filteredMarkers);
+        filterRiskChart(filteredMarkers);
     }
 
     function configListingsSlider(max) {
         var slider = L.control.slider(function(value) {
             minListingsAms = parseInt(value);
-            filter();
+            setTimeout(filter, 0);
         }, {
             id: 'slider',
             size: '300px',
@@ -144,7 +208,7 @@ var Engine = (function() {
     function configAvailabilitySlider() {
         var slider = L.control.slider(function(value) {
             maxAvailableDays = parseInt(value);
-            filter();
+           setTimeout(filter, 0);
         }, {
             id: 'slider',
             size: '300px',
@@ -201,7 +265,7 @@ var Engine = (function() {
     }
 
     function updateProgressBar(processed, total, elapsed) {
-        if (elapsed > 0) {
+        if (elapsed > 50) {
             // if it takes more than x milliseconds to load, display the progress bar:
             progress.style.display = 'block';
             progressBar.style.width = Math.round(processed/total*100) + '%';
@@ -270,66 +334,14 @@ var Engine = (function() {
         });
     }
 
-    function createRiskChart(rawData) {
+    function filterRiskChart(markers) {
         var convertedData = [];
 
-        for (var index = 0; index < rawData.length; index++) {
-            convertedData.push([rawData[index].host_amsterdam_listings_count, rawData[index].availability_60]);
+        for (var i = 0; i < markers.length; i++) {
+            convertedData.push([markers[i].options.data.host_amsterdam_listings_count, markers[i].options.data.availability_60]);
         }
 
-        riskChart = Highcharts.chart('risk-chart', {
-            chart: {
-                type: 'scatter',
-                zoomType: 'xy',
-                backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                borderRadius: 8,
-                plotBackgroundColor: Highcharts.svg ? {
-                    radialGradient: {
-                        cx: 1.0,
-                        cy: 0.0,
-                        r: 1.5
-                    },
-                    stops: [
-                        [0.0, 'rgba(255, 0, 0, 1.0)'],
-                        [0.5, 'rgba(255, 193, 86, 1.0)'],
-                        [1.0, 'rgba(44, 160, 44, 1.0)']
-                    ]
-                } : null
-            },
-            title: {
-                text: 'Risk chart'
-            },
-            xAxis: {
-                title: {
-                    text: 'Listings in Ams.'
-                },
-                min: 1,
-                max: listingsSliderMax
-            },
-            yAxis: {
-                title: {
-                    text: 'Available days out of 60'
-                },
-                min: 0,
-                max: 60,
-                reversed: true
-            },
-            series: [{
-                name: 'Listings',
-                data: convertedData,
-                marker: {
-                    fillColor: 'rgba(0, 0, 0, .5)',
-                    lineWidth: 0.5
-                }
-            }],
-            tooltip: {
-                headerFormat: '<b>{series.name}</b><br>',
-                pointFormat: '{point.x} listings, {point.y} available days'
-            },
-            credits: {
-                enabled: 0
-            }
-        });
+        riskChart.series[0].setData(convertedData);
     }
 
     return {
